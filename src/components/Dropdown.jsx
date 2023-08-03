@@ -2,6 +2,8 @@ import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { AiFillDownCircle } from "react-icons/ai";
 import { changeSearchType } from "../slices/dropdownSlice";
+import { BiMoviePlay } from "react-icons/bi";
+import { PiTelevisionSimpleBold } from "react-icons/pi";
 
 function Dropdown() {
   const [open, setOpen] = useState(false);
@@ -19,37 +21,33 @@ function Dropdown() {
         className="space-x-1 rounded border bg-blue-400 px-2 py-1 text-sm text-white"
       >
         <AiFillDownCircle className="inline-block" />
-        <span className="inline-block w-11 text-left">{searchType === 'movie' ? "Movie" : 'Series'}</span>
+        <span className="inline-block w-11 text-left">
+          {searchType === "movie" ? "Movie" : "Series"}
+        </span>
       </button>
       {open && (
-        <div className="mt-2 rounded border px-2 py-3 text-sm">
-          {/* <span
-            onClick={() => {
-              handleClick();
-              dispatch(changeSearchType(""));
-            }}
-            className="block cursor-pointer border-b p-1"
-          >
-            All
-          </span> */}
-          <span
+        <div className="mt-2 rounded border bg-white px-2 py-3 text-sm">
+          <div
             onClick={() => {
               handleClick();
               dispatch(changeSearchType("movie"));
             }}
-            className="block cursor-pointer border-b p-1"
+            className="flex cursor-pointer items-center justify-center gap-1 border-b p-1 transition-all hover:scale-105"
           >
-            Movie
-          </span>
-          <span
+            <BiMoviePlay />
+            <span>Movie</span>
+          </div>
+
+          <div
             onClick={() => {
               handleClick();
               dispatch(changeSearchType("tv"));
             }}
-            className="block cursor-pointer p-1"
+            className="flex cursor-pointer items-center justify-center gap-1 p-1 transition-all hover:scale-105"
           >
-            Series
-          </span>
+            <PiTelevisionSimpleBold />
+            <span>Series</span>
+          </div>
         </div>
       )}
     </div>

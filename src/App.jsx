@@ -8,6 +8,7 @@ import {loader as MoviesLoader} from './pages/MovieList'
 import Error from "./ui/Error"
 import SeriesList from "./pages/SeriesList"
 import {loader as SeriesLoader} from './pages/SeriesList'
+import { loader as CollectionLoader } from "./pages/CollectionList"
 
 
 const router = createBrowserRouter([
@@ -33,6 +34,8 @@ const router = createBrowserRouter([
       {
         path:'/collections',
         element:<CollectionList />,
+        loader:CollectionLoader,
+        errorElement: <Error />
       },
       {
         path:'/reviews',

@@ -2,13 +2,17 @@ import { searchSeries } from "../utils/series";
 import { useLoaderData } from "react-router-dom";
 import { AiOutlineStar,AiOutlineEye } from "react-icons/ai";
 import {BsFillCollectionPlayFill} from 'react-icons/bs'
-import IconButton from "../components/IconButton";
+
+import { useDispatch } from "react-redux";
+import {
+  setCollectionIsOpen,
+  setSelectedContent,
+} from "../slices/collectionSlice";
 
 
 
 function SeriesList() {
   const seriesList = useLoaderData();
-  console.log(seriesList);
 
   if (seriesList.length === 0)
     return <p>Input valid keywords to get better results.</p>;
@@ -31,6 +35,8 @@ export default SeriesList;
 
 function Series({ series }) {
 
+  const dispatch = useDispatch()
+
 
   return (
     <div className="grid grid-rows-[auto_1fr_auto] rounded p-2 shadow">
@@ -51,9 +57,20 @@ function Series({ series }) {
           {series.overview ? series.overview : 'This movie has no description'}
         </p>
       </div>
-      <div className="flex flex-col items-start justify-around text-md md:flex-row md:items-center py-2">
-        <IconButton icon={<BsFillCollectionPlayFill />}></IconButton>
-        <IconButton icon={<AiOutlineEye />}></IconButton>
+      <div className="flex items-center justify-around text-md py-2">
+      <button
+          onClick={() => {
+            dispatch(setSelectedContent(series));
+            dispatch(setCollectionIsOpen());
+          }}
+          
+          className="rounded px-2 py-1 shadow-md hover:scale-105"
+        >
+          <BsFillCollectionPlayFill />
+        </button>
+        <button className="rounded px-2 py-1 shadow-md hover:scale-105">
+          <AiOutlineEye />
+        </button>
       </div>
     </div>
   );
@@ -62,8 +79,6 @@ function Series({ series }) {
 export async function loader({ params }) {
   const query = params.query || "";
   const data = await searchSeries(query);
-
-  console.log(data);
 
   return data.results;
 }
