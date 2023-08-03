@@ -6,7 +6,7 @@ function CollectionList() {
 
     return (
         <div>
-            CollectionList
+            {collections.map(c=><h1 key={c.id}>{c.title}</h1>)}
         </div>
     )
 }
