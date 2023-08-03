@@ -5,7 +5,6 @@ import { BsFillCollectionPlayFill, BsPencilSquare } from "react-icons/bs";
 import { RxHamburgerMenu } from "react-icons/rx";
 import { useState } from "react";
 import { ImCancelCircle } from "react-icons/im";
-import { useSelector } from "react-redux";
 
 import { PiTelevisionSimpleBold } from "react-icons/pi";
 import SearchBar from "./SearchBar";
