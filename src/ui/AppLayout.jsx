@@ -9,7 +9,6 @@ function AppLayout() {
   return (
     <div className="relative grid min-h-screen grid-rows-[auto_1fr] font-poppins">
       {appState.state === "loading" && <Loading />}
-
       <Navbar />
       <Outlet />
     </div>

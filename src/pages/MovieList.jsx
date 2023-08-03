@@ -48,7 +48,7 @@ function Movie({movie}){
         {movie.overview ? movie.overview : 'This movie has no description'}
       </p>
     </div>
-    <div className="flex flex-col items-start justify-around text-md md:flex-row md:items-center py-2">
+    <div className="flex items-center justify-around text-md py-2">
       <IconButton icon={<BsFillCollectionPlayFill />}></IconButton>
       <IconButton icon={<AiOutlineEye />}></IconButton>
     </div>

@@ -1,36 +1,23 @@
-import { useState } from "react";
-import Dropdown from "../components/Dropdown";
-import { useNavigate } from "react-router-dom";
-import {BiSearchAlt} from 'react-icons/bi'
-import { useSelector } from "react-redux";
+import Lottie from 'lottie-react'
+import SearchBar from "../components/SearchBar"
+import movie from '../assets/movie.json'
+
+
+
 
 function Homepage() {
-  const [query, setQuery] = useState('')
-  const navigate = useNavigate()
-  const searchType = useSelector(state=>state.dropdown.searchType)
-
-
-  
-
-  function handleSubmit(e){
-    e.preventDefault()
-    navigate(`${searchType}/${query}`)
-  }
-
-
   return (
-    <div className="flex items-center justify-center">
-      <form onSubmit={handleSubmit} className="relative w-full md:w-2/4 px-2">
-        <input value={query} onChange={(e)=>setQuery(e.target.value)} type="text" className="rounded border shadow-md px-4 py-2 w-full inline-block pl-24" placeholder="Seacrh here..." />
+    <div className="flex flex-col items-center justify-center w-full md:w-3/5 mx-auto p-2">
 
-        <button type="submit" className="absolute right-3.5 top-2">
-          <BiSearchAlt className="text-2xl" />
-        </button>
-        
-        <Dropdown />
-      </form>
+      <div className='flex flex-col md:flex-row items-center justify-center my-4'>
+        <h1 className='basis-2/4 text-3xl md:text-6xl font-bold bg-gradient-to-b from-blue-600 to-blue-300 bg-clip-text text-transparent text-center md:text-left'>What are you watching today?</h1>
+      <Lottie animationData={movie} className='h-2/4 text-blue-400' />
+      </div>
+
+      <SearchBar />
     </div>
-  );
+  )
 }
 
-export default Homepage;
+export default Homepage
+
