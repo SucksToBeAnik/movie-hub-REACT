@@ -23,7 +23,7 @@ export async function addContentToCollection(idOFcollection, contentId) {
 
 
     let existingContentIds = [];
-    if (collection.expand.contents.length !== 0) {
+    if (collection.expand.contents) {
       existingContentIds = collection.expand.contents.map(
         (content) => content.id,
       );

@@ -102,7 +102,7 @@ function Collection({ item }) {
       )}
 
       {error && (
-        <div className="absolute bottom-0 left-0 right-0 mx-auto flex items-center justify-between rounded bg-red-400 p-1 text-xs text-white">
+        <div className="absolute bottom-0 left-0 mx-auto flex items-start gap-2 justify-between rounded bg-red-400 p-1 text-xs text-white z-[60]">
           <p>{error}</p>
           <button onClick={() => setError("")}>
             <ImCancelCircle />

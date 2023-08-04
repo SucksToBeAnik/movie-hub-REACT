@@ -13,7 +13,6 @@ import {
 function SeriesList() {
   const seriesList = useLoaderData();
 
-  console.log(seriesList)
 
   const dispatch = useDispatch();
 
