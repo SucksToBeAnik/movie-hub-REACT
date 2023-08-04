@@ -20,7 +20,7 @@ function Navbar() {
 
   return (
     <section className="relative h-28">
-      <nav className="fixed z-50 flex w-full items-center justify-between bg-white p-5 shadow-md">
+      <nav className="fixed z-40 flex w-full items-center justify-between bg-white p-5 shadow-md">
         <div className="grid w-full grid-cols-[1fr_1fr_1fr] gap-y-4 xl:grid-cols-[auto_1fr]">
           <div
             onClick={handleLinkClick}

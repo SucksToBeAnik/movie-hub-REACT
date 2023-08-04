@@ -9,6 +9,9 @@ import Error from "./ui/Error"
 import SeriesList from "./pages/SeriesList"
 import {loader as SeriesLoader} from './pages/SeriesList'
 import { loader as CollectionLoader } from "./pages/CollectionList"
+import CollectionOverview from "./pages/CollectionOverview"
+
+import {loader as collectionOverviewLoader} from './pages/CollectionOverview'
 
 
 const router = createBrowserRouter([
@@ -36,6 +39,12 @@ const router = createBrowserRouter([
         element:<CollectionList />,
         loader:CollectionLoader,
         errorElement: <Error />
+      },
+      {
+        path:'/collections/:id',
+        element:<CollectionOverview />,
+        errorElement: <Error />,
+        loader: collectionOverviewLoader
       },
       {
         path:'/reviews',

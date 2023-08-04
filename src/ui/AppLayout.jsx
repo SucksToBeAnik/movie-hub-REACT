@@ -11,6 +11,7 @@ function AppLayout() {
   const selectedContent = useSelector(state=>state.collection.selectedContent)
 
 
+
   return (
     <div className="relative grid min-h-screen grid-rows-[auto_1fr] font-poppins">
       {appState.state === "loading" && <Loading />}

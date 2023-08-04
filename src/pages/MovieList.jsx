@@ -6,10 +6,17 @@ import { useDispatch } from "react-redux";
 import {
   setCollectionIsOpen,
   setSelectedContent,
+  fetchCollections
 } from "../slices/collectionSlice";
+import { useEffect } from "react";
 
 function MovieList() {
   const movies = useLoaderData();
+  const dispatch = useDispatch()
+
+  useEffect(function(){
+    dispatch(fetchCollections())
+  },[dispatch])
 
 
   if (!movies) return <p>Input valid keywords to get better results.</p>;
@@ -65,7 +72,7 @@ function Movie({ movie }) {
         >
           <BsFillCollectionPlayFill />
         </button>
-        <button className="rounded px-2 py-1 shadow-md hover:scale-105">
+        <button onClick={()=>dispatch(setSelectedContent(movie))} className="rounded px-2 py-1 shadow-md hover:scale-105">
           <AiOutlineEye />
         </button>
       </div>

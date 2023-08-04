@@ -1,42 +1,48 @@
 import { ImCancelCircle } from "react-icons/im";
 import { setCollectionIsOpen } from "../slices/collectionSlice";
-import { useDispatch } from "react-redux";
-import { useFetcher } from "react-router-dom";
-import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { Link } from "react-router-dom";
+import { AiOutlinePlusCircle } from "react-icons/ai";
+import { postContent, addContentToCollection } from "../pb/post";
+import { getSpecificContent } from "../pb/get";
+import { useState } from "react";
+import { BiLoaderCircle } from "react-icons/bi";
 
 function CollectionConfirmation({ content }) {
   const dispatch = useDispatch();
-  const fetcher = useFetcher();
 
-  
-
-  useEffect(
-    function () {
-      if (!fetcher.data && fetcher.state === "idle") fetcher.load("/collections");
-    },
-    [fetcher],
+  const { collectionList: collections } = useSelector(
+    (state) => state.collection,
   );
 
-  console.log(fetcher)
-  console.log(fetcher.data)
-
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center backdrop-blur-sm">
-      <div className="relative mx-auto min-h-fit w-3/5 rounded bg-blue-400 p-2 text-white">
-        <h1 className="text-xl font-semibold">
+    <div className="fixed inset-0 z-50  flex  justify-center p-2 backdrop-blur-sm items-center">
+      <div className="relative mx-auto flex w-full  flex-col items-center justify-between gap-y-4 rounded bg-gray-800/50 px-1 py-4 text-white md:w-3/5 md:px-2">
+        <h1 className="text-md px-2 py-4 text-center">
           Add
-          <span className="rounded bg-white p-1 text-sm text-blue-400">
+          <span className="px-2 font-bold">
             {content?.name || content?.title}
-          </span>{" "}
+          </span>
           to your collection?
         </h1>
-        <p>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. In reiciendis
-          tenetur, distinctio nesciunt tempora qui odio natus cumque animi enim
-          iusto eligendi voluptates? Sint sunt asperiores ipsum, quisquam
-          voluptas voluptate at dolorum laboriosam deserunt ut! Porro at esse
-          laudantium hic.
-        </p>
+
+        <ul className="grid grid-cols-2 gap-2 p-1 md:grid-cols-3 lg:grid-cols-4">
+          {!collections.length ? (
+            <div className="col-span-full flex flex-col items-center gap-y-1 justify-self-center p-2">
+              <h1 className="text-center">You have no collections</h1>
+              <Link
+                to="/collections"
+                className="rounded bg-white px-2 py-1 text-sm text-blue-400"
+              >
+                Go to collection
+              </Link>
+            </div>
+          ) : (
+            collections.map((collection) => {
+              return <Collection item={collection} key={collection.id} />;
+            })
+          )}
+        </ul>
         <button
           className="absolute right-2 top-2 text-xl"
           onClick={() => dispatch(setCollectionIsOpen())}
@@ -47,6 +53,63 @@ function CollectionConfirmation({ content }) {
         <button></button>
       </div>
     </div>
+  );
+}
+
+function Collection({ item }) {
+
+  const selectedContent = useSelector(
+    (state) => state.collection.selectedContent,
+  );
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState("");
+
+  async function handleAddMovieToCollection() {
+    setIsLoading(true);
+    setError("");
+
+    try {
+      let content = await getSpecificContent(
+        selectedContent?.title || selectedContent?.name,
+      );
+
+      if (!content) {
+        content = await postContent(selectedContent);
+      }
+
+      const collection = await addContentToCollection(item.id, content.id);
+
+      setIsLoading(false);
+    } catch (e) {
+      setIsLoading(false);
+      setError(e.message);
+    }
+  }
+
+  return (
+    <li className="relative flex items-center justify-between rounded bg-white p-1 text-xs text-blue-400 shadow sm:text-sm md:px-2">
+      <h1>{item.title}</h1>
+
+      {isLoading ? (
+        <BiLoaderCircle className="text-md animate-spin" />
+      ) : (
+        <button
+          onClick={handleAddMovieToCollection}
+          className="text-lg md:text-xl"
+        >
+          <AiOutlinePlusCircle />
+        </button>
+      )}
+
+      {error && (
+        <div className="absolute bottom-0 left-0 right-0 mx-auto flex items-center justify-between rounded bg-red-400 p-1 text-xs text-white">
+          <p>{error}</p>
+          <button onClick={() => setError("")}>
+            <ImCancelCircle />
+          </button>
+        </div>
+      )}
+    </li>
   );
 }
 

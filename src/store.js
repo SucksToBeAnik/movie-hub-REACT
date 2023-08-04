@@ -7,7 +7,10 @@ const store = configureStore({
     reducer:{
         dropdown: dropdownSliceReducer,
         collection:collectionSliceReducer,
-    }
+    },
+    middleware:(getDefaultMiddleware) => getDefaultMiddleware(
+        {serializableCheck: false}
+    )
 })
 
 export default store;
