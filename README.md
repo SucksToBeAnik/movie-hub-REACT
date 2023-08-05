@@ -7,17 +7,17 @@
 
 <hr>
 
-`Tech Stack used`
+### Tech Stack used
 
-* [x] React
-* [x] react-redux
-* [x] @reduxjs/toolkit
-* [x] react-router-dom
-* [x] pocketbase
-* [x] tailwindcss
-* [x] lottie
+* [x] `React`
+* [x] `react-redux`
+* [x] `@reduxjs/toolkit`
+* [x] `react-router-dom`
+* [x] `pocketbase`
+* [x] `tailwindcss`
+* [x] `lottie`
 
-`Fetures`
+### Fetures
 
 * [x] Search movie/series
 * [x] Add movie to collection
