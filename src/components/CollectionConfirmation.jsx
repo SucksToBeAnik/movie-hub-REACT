@@ -7,6 +7,7 @@ import { postContent, addContentToCollection } from "../pb/post";
 import { getSpecificContent } from "../pb/get";
 import { useState } from "react";
 import { BiLoaderCircle } from "react-icons/bi";
+import { SlCheck} from 'react-icons/sl'
 
 function CollectionConfirmation({ content }) {
   const dispatch = useDispatch();
@@ -62,10 +63,12 @@ function Collection({ item }) {
     (state) => state.collection.selectedContent,
   );
   const [isLoading, setIsLoading] = useState(false);
+  const [isCompleted, setIsCompleted] = useState(false)
   const [error, setError] = useState("");
 
   async function handleAddMovieToCollection() {
     setIsLoading(true);
+    setIsCompleted(false)
     setError("");
 
     try {
@@ -78,6 +81,8 @@ function Collection({ item }) {
       }
 
       const collection = await addContentToCollection(item.id, content.id);
+
+      setIsCompleted(true)
 
       setIsLoading(false);
     } catch (e) {
@@ -92,12 +97,14 @@ function Collection({ item }) {
 
       {isLoading ? (
         <BiLoaderCircle className="text-md animate-spin" />
-      ) : (
+      ) :  (
         <button
           onClick={handleAddMovieToCollection}
           className="text-lg md:text-xl"
+          disabled={isCompleted}
         >
-          <AiOutlinePlusCircle />
+          {isCompleted ? <SlCheck className="cursor-not-allowed text-lg" /> : <AiOutlinePlusCircle />}
+          
         </button>
       )}
 
