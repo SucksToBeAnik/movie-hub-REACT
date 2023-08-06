@@ -1,23 +1,32 @@
 import { searchMovie } from "../utils/movie";
-import { useLoaderData } from "react-router-dom";
+import { Link, useLoaderData, useParams } from "react-router-dom";
 import { BsFillCollectionPlayFill } from "react-icons/bs";
 import { AiOutlineStar, AiOutlineEye } from "react-icons/ai";
 import { useDispatch } from "react-redux";
 import {
   setCollectionIsOpen,
   setSelectedContent,
-  fetchCollections
+  fetchCollections,
 } from "../slices/collectionSlice";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import { BiSkipNext, BiSkipPrevious } from "react-icons/bi";
 
 function MovieList() {
-  const movies = useLoaderData();
-  const dispatch = useDispatch()
+  const data = useLoaderData();
+  const dispatch = useDispatch();
+  const movies = data.results;
+  const params = useParams();
+  const query = params.query || "";
+  const total_pages = data.total_pages;
 
-  useEffect(function(){
-    dispatch(fetchCollections())
-  },[dispatch])
+  const [page, setPage] = useState(data.page);
 
+  useEffect(
+    function () {
+      dispatch(fetchCollections());
+    },
+    [dispatch],
+  );
 
   if (!movies) return <p>Input valid keywords to get better results.</p>;
 
@@ -32,6 +41,34 @@ function MovieList() {
         {movies.map((movie) => (
           <Movie key={movie.id} movie={movie} />
         ))}
+      </div>
+
+      <div className="flex items-center justify-center gap-2 text-3xl text-white my-2">
+        <Link
+          onClick={() => {
+            if (page > 1) setPage((p) => p - 1);
+          }}
+          className={`rounded-full bg-blue-400 p-2 shadow-md ${
+            page === 1 && "hidden"
+          }`}
+          to={`/movie/${page - 1}/${query}`}
+        >
+          <BiSkipPrevious />
+        </Link>
+
+        <span className="rounded-full  border-b-2 p-2 text-base font-semibold text-blue-400 shadow-md">
+          {page}
+        </span>
+
+        <Link
+          onClick={() => setPage((p) => p + 1)}
+          className={`rounded-full bg-blue-400 p-2 shadow-md ${
+            page === total_pages && "hidden"
+          }`}
+          to={`/movie/${page + 1}/${query}`}
+        >
+          <BiSkipNext />
+        </Link>
       </div>
     </section>
   );
@@ -57,7 +94,7 @@ function Movie({ movie }) {
       </div>
       <div>
         <h1 className="text-md py-2 font-semibold">{movie.name}</h1>
-        <p className="line-clamp-4 py-2 text-xs text-black/60 md:text-base">
+        <p className="line-clamp-4 mb-2 text-xs text-black/60 md:text-base">
           {movie.overview ? movie.overview : "This movie has no description"}
         </p>
       </div>
@@ -67,12 +104,14 @@ function Movie({ movie }) {
             dispatch(setSelectedContent(movie));
             dispatch(setCollectionIsOpen());
           }}
-          
           className="rounded px-2 py-1 shadow-md hover:scale-105"
         >
           <BsFillCollectionPlayFill />
         </button>
-        <button onClick={()=>dispatch(setSelectedContent(movie))} className="rounded px-2 py-1 shadow-md hover:scale-105">
+        <button
+          onClick={() => dispatch(setSelectedContent(movie))}
+          className="rounded px-2 py-1 shadow-md hover:scale-105"
+        >
           <AiOutlineEye />
         </button>
       </div>
@@ -82,8 +121,8 @@ function Movie({ movie }) {
 
 export async function loader({ params }) {
   const query = params.query || "";
-  const data = await searchMovie(query);
+  const page = params.page;
+  const data = await searchMovie(query, page);
 
-
-  return data.results;
+  return data;
 }

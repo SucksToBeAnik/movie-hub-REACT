@@ -103,7 +103,7 @@ function Collection({ item }) {
           className="text-lg md:text-xl"
           disabled={isCompleted}
         >
-          {isCompleted ? <SlCheck className="cursor-not-allowed text-lg" /> : <AiOutlinePlusCircle />}
+          {isCompleted ? <SlCheck className="cursor-not-allowed text-md md:text-lg" /> : <AiOutlinePlusCircle />}
           
         </button>
       )}

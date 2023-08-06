@@ -15,7 +15,7 @@ function SearchBar({className=''}) {
 
   function handleSubmit(e){
     e.preventDefault()
-    navigate(`${searchType}/${query}`)
+    navigate(`${searchType}/1/${query}`)
   }
 
   const formClass = twMerge("relative w-full shadow-md",className)

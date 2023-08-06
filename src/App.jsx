@@ -23,13 +23,13 @@ const router = createBrowserRouter([
         element: <Homepage />,
       },
       {
-        path:'/movie/:query?',
+        path:'/movie/:page/:query?/',
         element:<MovieList />,
         loader:MoviesLoader,
         errorElement: <Error />
       },
       {
-        path:'/tv/:query?',
+        path:'/tv/:page/:query?/',
         element:<SeriesList />,
         loader:SeriesLoader,
         errorElement: <Error />

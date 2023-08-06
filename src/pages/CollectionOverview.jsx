@@ -54,19 +54,19 @@ function CollectionContent({ id }) {
           <BiLoaderCircle />
         </div>
       ) : (
-        <>
+        <div className="relative w-full">
           <div className="flex flex-col items-start justify-center gap-2">
             <img
               src={content.poster}
               alt={content.title}
               className="rounded shadow-md"
             />
-            <h1 className="sm:basis-10 font-bold">{content.title}</h1>
+            <h1 className="font-bold sm:basis-10">{content.title}</h1>
 
-            <p className="sm:basis-64 text-sm">{content.body}</p>
+            <p className="text-sm sm:basis-64">{content.body}</p>
           </div>
 
-          <div className="my-2 flex items-center justify-between gap-4">
+          <div className="my-2 flex items-center justify-start gap-4">
             <p className="flex items-center justify-center rounded bg-blue-400 p-[3px] text-xs text-white">
               <AiOutlineStar />
               <span>{content.rating}</span>
@@ -77,11 +77,15 @@ function CollectionContent({ id }) {
               <span>{content.votes}</span>
             </p>
           </div>
+          <p className="absolute right-0 top-0 flex items-center justify-center gap-x-1 rounded bg-blue-400 p-[3px] text-xs text-white">
+            <span>Released on</span>
+            <span className="shadow">{content.release_date.slice(0, 4)}</span>
+          </p>
 
-          <button className="width-full mx-auto rounded-full border-2 p-3 shadow transition-all hover:scale-105">
+          <button className="mx-auto flex w-16 items-center justify-center rounded-full border-2 p-3 text-xl font-semibold shadow-md transition-all hover:scale-105">
             <BsTrash />
           </button>
-        </>
+        </div>
       )}
     </li>
   );

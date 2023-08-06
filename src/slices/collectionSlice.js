@@ -35,6 +35,9 @@ const collectionSlice = createSlice({
         },
         updateCollectionList(state,action){
             state.collectionList = [...action.payload]
+        },
+        setPageUp(state){
+            state.page = state.page + 1
         }
     },
     extraReducers: (builder)=> builder.addCase(fetchCollections.fulfilled, (state,action)=>{

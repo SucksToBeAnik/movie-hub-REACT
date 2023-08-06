@@ -9,6 +9,7 @@ import { ImCancelCircle } from "react-icons/im";
 import { PiTelevisionSimpleBold } from "react-icons/pi";
 import SearchBar from "./SearchBar";
 
+
 function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
 
@@ -53,13 +54,13 @@ function Navbar() {
         >
           <NavLink
             handleLinkClick={handleLinkClick}
-            to="/movie"
+            to="/movie/1"
             icon={<BiMoviePlay className="text-md" />}
             name="Movies"
           />
           <NavLink
             handleLinkClick={handleLinkClick}
-            to="/tv"
+            to="/tv/1"
             icon={<PiTelevisionSimpleBold className="text-md" />}
             name="TV Series"
           />

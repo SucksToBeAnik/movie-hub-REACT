@@ -1,6 +1,7 @@
 import { pb } from "./database";
 
 export async function postContent(content) {
+  console.log(content)
   try {
     const movie = await pb.collection("contents").create({
       title: content?.title || content?.name,
@@ -8,6 +9,7 @@ export async function postContent(content) {
       poster: `https://image.tmdb.org/t/p/original${content.poster_path}`,
       rating: content.vote_average,
       votes: content.vote_count,
+      release_date: content.release_date || content.first_air_date
     });
     return movie;
   } catch (e) {

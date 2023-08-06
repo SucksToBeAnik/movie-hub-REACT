@@ -1,18 +1,24 @@
 import { searchSeries } from "../utils/series";
-import { useLoaderData } from "react-router-dom";
+import { useLoaderData, useParams, Link } from "react-router-dom";
 import { AiOutlineStar, AiOutlineEye } from "react-icons/ai";
 import { BsFillCollectionPlayFill } from "react-icons/bs";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import {
   setCollectionIsOpen,
   setSelectedContent,
-  fetchCollections
+  fetchCollections,
 } from "../slices/collectionSlice";
+import { BiSkipNext, BiSkipPrevious } from "react-icons/bi";
 
 function SeriesList() {
-  const seriesList = useLoaderData();
+  const data = useLoaderData();
+  const seriesList = data.results;
+  const params = useParams();
+  const query = params.query || "";
 
+  const total_pages = data.total_pages;
+  const [page, setPage] = useState(data.page);
 
   const dispatch = useDispatch();
 
@@ -38,6 +44,29 @@ function SeriesList() {
           <Series key={series.id} series={series} />
         ))}
       </div>
+
+      <div className="flex items-center justify-center gap-2 text-3xl text-white my-2">
+        
+          <Link onClick={() => {
+            if (page > 1) setPage((p) => p - 1);
+          }}
+          className={`rounded-full bg-blue-400 p-2 shadow-md ${
+            page === 1 && "hidden"
+          }`} to={`/tv/${page - 1}/${query}`}>
+            <BiSkipPrevious />
+          </Link>
+        
+          <span className="text-base font-semibold rounded-full shadow-md p-2 border-b-2 text-blue-400">{page}</span>
+
+        
+          <Link onClick={() => setPage((p) => p + 1)}
+          className={`rounded-full bg-blue-400 p-2 shadow-md ${
+            page === total_pages && "hidden"
+          }`} to={`/tv/${page + 1}/${query}`}>
+            <BiSkipNext />
+          </Link>
+        
+      </div>
     </section>
   );
 }
@@ -46,7 +75,6 @@ export default SeriesList;
 
 function Series({ series }) {
   const dispatch = useDispatch();
-  
 
   return (
     <div className="grid grid-rows-[auto_1fr_auto] rounded p-2 shadow">
@@ -63,7 +91,7 @@ function Series({ series }) {
       </div>
       <div>
         <h1 className="text-md py-2 font-semibold">{series.name}</h1>
-        <p className="line-clamp-4 py-2 text-xs text-black/60 md:text-base">
+        <p className="line-clamp-4 mb-2 text-xs text-black/60 md:text-base">
           {series.overview ? series.overview : "This movie has no description"}
         </p>
       </div>
@@ -77,7 +105,10 @@ function Series({ series }) {
         >
           <BsFillCollectionPlayFill />
         </button>
-        <button onClick={()=>dispatch(setSelectedContent(series))} className="rounded px-2 py-1 shadow-md hover:scale-105">
+        <button
+          onClick={() => dispatch(setSelectedContent(series))}
+          className="rounded px-2 py-1 shadow-md hover:scale-105"
+        >
           <AiOutlineEye />
         </button>
       </div>
@@ -87,7 +118,11 @@ function Series({ series }) {
 
 export async function loader({ params }) {
   const query = params.query || "";
-  const data = await searchSeries(query);
+  const page = params.page;
 
-  return data.results;
+  const data = await searchSeries(query, page);
+
+  console.log(data);
+
+  return data;
 }
