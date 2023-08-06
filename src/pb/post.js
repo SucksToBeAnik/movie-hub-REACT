@@ -41,3 +41,16 @@ export async function addContentToCollection(idOFcollection, contentId) {
     throw new Error(e.message);
   }
 }
+
+export async function createCollection(object){
+  try{
+    await pb.collection('collections').create({
+      title:object.title,
+      body: object.body
+    })
+
+    return
+  }catch(e){
+    throw new Error(e.message)
+  }
+}
