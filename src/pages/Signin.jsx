@@ -38,7 +38,7 @@ function Signin() {
             }
           })}
         >
-          <div className="flex w-full flex-col gap-y-1 p-2">
+          <div className="flex w-3/4 flex-col gap-y-1 p-2">
             <label htmlFor="username">Username</label>
             <input
               className="w-full rounded border p-1 shadow focus:outline-none"
@@ -52,7 +52,7 @@ function Signin() {
             )}
           </div>
 
-          <div className="flex w-full flex-col p-2 gap-y-1">
+          <div className="flex w-3/4 flex-col p-2 gap-y-1">
             <label htmlFor="password">Password</label>
             <input
               type="password"
