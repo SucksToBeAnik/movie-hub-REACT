@@ -2,7 +2,7 @@ import { useForm } from "react-hook-form";
 import { BiLoaderCircle } from "react-icons/bi";
 import { createUserWithUsername } from "../pb/auth";
 import { useEffect, useState } from "react";
-import { useNavigate,Link } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 
 function Signup() {
   const [signupError, setSignupError] = useState("");
@@ -23,8 +23,8 @@ function Signup() {
   );
 
   return (
-    <div className="flex items-center justify-center">
-      <div className="py-12 px-4 w-2/4 shadow mx-auto">
+    <div className="flex items-center justify-center overflow-hidden">
+      <div className="w-full p-4 py-12 shadow md:w-2/4">
         <h1 className="px-2 py-4 text-center text-2xl font-semibold">
           Create an account
         </h1>
@@ -40,10 +40,11 @@ function Signup() {
           })}
           className="flex flex-col items-center justify-center p-2"
         >
-          <div className="flex flex-col items-start justify-center w-3/4 p-2 gap-y-1">
+
+          <div className="flex w-full flex-1 flex-col gap-y-1 p-2 md:w-3/4">
             <label htmlFor="username">Username</label>
             <input
-              className="rounded border p-1 shadow focus:outline-none w-full"
+              className="w-full rounded border p-1 shadow focus:outline-none"
               {...register("username", { required: true })}
               type="text"
               placeholder="What should we call you?"
@@ -54,10 +55,10 @@ function Signup() {
             )}
           </div>
 
-          <div className="flex flex-col w-3/4 p-2 gap-y-1">
+          <div className="flex w-full flex-1 flex-col gap-y-1 p-2 md:w-3/4">
             <label htmlFor="password">Password</label>
             <input
-              className="rounded border p-1 shadow focus:outline-none"
+              className="rounded border p-1 shadow focus:outline-none placeholder:truncate"
               {...register("password", {
                 required: true,
                 minLength: 8,
@@ -76,10 +77,10 @@ function Signup() {
             )}
           </div>
 
-          <div className="flex flex-col w-3/4 p-2 gap-y-1">
+          <div className="flex w-full flex-1 flex-col gap-y-1 p-2 md:w-3/4">
             <label htmlFor="confirmPassword">Confirm Password</label>
             <input
-              className="rounded border p-1 shadow focus:outline-none"
+              className="rounded border p-1 shadow focus:outline-none placeholder:truncate"
               type="password"
               placeholder="Enter the password again to confirm"
               id="confirmPassword"
@@ -95,30 +96,30 @@ function Signup() {
             )}
           </div>
 
-          
-            <button className="rounded bg-blue-400 px-3 py-1 my-4 text-white shadow flex items-center justify-between gap-x-1">
-              <span>Signup</span>
-              <span>{isSubmitting && <BiLoaderCircle className="animate-spin" />}</span>
-            </button>
-        
+          <button className="my-4 flex items-center justify-between gap-x-1 rounded bg-blue-400 px-3 py-1 text-white shadow">
+            <span>Signup</span>
+            <span>
+              {isSubmitting && <BiLoaderCircle className="animate-spin" />}
+            </span>
+          </button>
 
           {signupError && (
             <p className="py-1 text-sm text-red-400">{signupError}</p>
           )}
         </form>
 
-        <div className="flex flex-col items-center justify-center gap-1 font-semibold md:flex-row">
-            <h3>Already have an account?</h3>
-            <p className="flex items-center justify-center gap-x-2">
-              <span>Signin</span>
-              <Link
-                to="/signin"
-                className="border-b-2 border-blue-400 text-blue-400"
-              >
-                Here
-              </Link>
-            </p>
-          </div>
+        <div className="flex flex-col items-center justify-center gap-1  font-semibold lg:flex-row text-sm md:text-base">
+          <h3 className="text-center">Already have an account?</h3>
+          <p className="flex items-center justify-between gap-x-1 md:gap-x-2">
+            <span>Signin</span>
+            <Link
+              to="/signin"
+              className="border-b-2 border-blue-400 text-blue-400"
+            >
+              Here
+            </Link>
+          </p>
+        </div>
       </div>
     </div>
   );

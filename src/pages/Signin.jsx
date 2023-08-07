@@ -7,38 +7,42 @@ import { useDispatch } from "react-redux";
 import { setIsSignedIn } from "../slices/authSlice";
 
 function Signin() {
-  const navigate = useNavigate()
-  const dispatch = useDispatch()
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
   const {
     register,
     handleSubmit,
-    formState: { errors, isSubmitting,isSubmitSuccessful },
+    formState: { errors, isSubmitting, isSubmitSuccessful },
   } = useForm();
 
-  useEffect(function(){
-    if(isSubmitSuccessful) {
-      dispatch(setIsSignedIn(true))
-      navigate('/')}
-  },[isSubmitSuccessful,navigate,dispatch])
+  useEffect(
+    function () {
+      if (isSubmitSuccessful) {
+        dispatch(setIsSignedIn(true));
+        navigate("/");
+      }
+    },
+    [isSubmitSuccessful, navigate, dispatch],
+  );
 
   const [error, setError] = useState("");
 
   return (
-    <div className="flex items-center justify-center">
-      <div className="w-2/4 p-4 shadow-md">
+    <div className="flex items-center justify-center overflow-hidden">
+      <div className="w-full p-4 py-12 shadow-md md:w-2/4">
         <h1 className="px-2 py-4 text-center text-2xl font-semibold">Login</h1>
         <form
           className="flex flex-col items-center justify-center p-2"
           onSubmit={handleSubmit(async (data) => {
             try {
-              setError('')
+              setError("");
               await signinWithUsername(data);
             } catch (e) {
               setError(e.message);
             }
           })}
         >
-          <div className="flex w-3/4 flex-col gap-y-1 p-2">
+          <div className="flex w-full flex-col gap-y-1 p-2 md:w-3/4 ">
             <label htmlFor="username">Username</label>
             <input
               className="w-full rounded border p-1 shadow focus:outline-none"
@@ -52,7 +56,7 @@ function Signin() {
             )}
           </div>
 
-          <div className="flex w-3/4 flex-col p-2 gap-y-1">
+          <div className="flex w-full flex-col gap-y-1 p-2 md:w-3/4">
             <label htmlFor="password">Password</label>
             <input
               type="password"
@@ -75,11 +79,13 @@ function Signin() {
               {isSubmitting && <BiLoaderCircle className="animate-spin" />}
             </span>
           </button>
-          {error && <p className="py-1 text-sm text-red-400">{`${error} Please provide valid information.`}</p>}
+          {error && (
+            <p className="py-1 text-sm text-red-400">{`${error} Please provide valid information.`}</p>
+          )}
 
-          <div className="flex flex-col items-center justify-center gap-1 font-semibold md:flex-row">
-            <h3>Do not have an account?</h3>
-            <p className="flex items-center justify-center gap-x-2">
+          <div className="flex flex-col items-center justify-center gap-1 text-sm font-semibold md:text-base lg:flex-row w-full">
+            <h3 className="text-center">Do not have an account?</h3>
+            <p className="flex flex-col sm:flex-row items-center justify-center gap-x-1 md:gap-x-2">
               <span>Create an account</span>
               <Link
                 to="/signup"

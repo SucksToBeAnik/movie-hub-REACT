@@ -38,7 +38,7 @@ function MovieList() {
   return (
     <section className="mb-16">
       <div className="flex justify-center">
-        <h1 className="md:4xl mb-4 mt-6 inline-block rounded-md bg-gradient-to-r from-blue-600 to-blue-300 bg-clip-text p-2 text-center text-3xl font-bold uppercase tracking-widest text-transparent shadow">
+        <h1 className="md:4xl mb-2 mt-10 lg:mt-6 inline-block rounded-md bg-gradient-to-r from-blue-600 to-blue-300 bg-clip-text p-2 text-center text-3xl font-bold uppercase tracking-widest text-transparent shadow">
           Movies
         </h1>
       </div>
