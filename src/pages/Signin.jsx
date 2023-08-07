@@ -12,20 +12,25 @@ function Signin() {
   const {
     register,
     handleSubmit,
-    formState: { errors, isSubmitting, isSubmitSuccessful },
+    formState: { errors, isSubmitting },
   } = useForm();
+
+  
+  const [isLoggedIn, setIsLoggedIn] = useState(false)
+  const [error, setError] = useState("");
+
+  console.log(isLoggedIn)
 
   useEffect(
     function () {
-      if (isSubmitSuccessful) {
+      if (isLoggedIn) {
         dispatch(setIsSignedIn(true));
         navigate("/");
       }
     },
-    [isSubmitSuccessful, navigate, dispatch],
+    [isLoggedIn, navigate, dispatch],
   );
 
-  const [error, setError] = useState("");
 
   return (
     <div className="flex items-center justify-center overflow-hidden">
@@ -37,6 +42,7 @@ function Signin() {
             try {
               setError("");
               await signinWithUsername(data);
+              setIsLoggedIn(true)
             } catch (e) {
               setError(e.message);
             }
