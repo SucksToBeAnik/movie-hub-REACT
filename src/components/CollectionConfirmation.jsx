@@ -33,6 +33,7 @@ function CollectionConfirmation({ content }) {
               <h1 className="text-center">You have no collections</h1>
               <Link
                 to="/collections"
+                onClick={()=>dispatch(setCollectionIsOpen())}
                 className="rounded bg-white px-2 py-1 text-sm text-blue-400"
               >
                 Go to collection

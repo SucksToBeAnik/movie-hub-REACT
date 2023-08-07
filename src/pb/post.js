@@ -1,7 +1,6 @@
 import { pb } from "./database";
 
 export async function postContent(content) {
-  console.log(content)
   try {
     const movie = await pb.collection("contents").create({
       title: content?.title || content?.name,
@@ -45,13 +44,14 @@ export async function addContentToCollection(idOFcollection, contentId) {
 }
 
 export async function createCollection(object){
+  
   try{
     await pb.collection('collections').create({
       title:object.title,
-      body: object.body
+      body: object.body,
+      profile:[object.profileId]
     })
 
-    return
   }catch(e){
     throw new Error(e.message)
   }

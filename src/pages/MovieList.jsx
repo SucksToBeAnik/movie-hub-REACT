@@ -1,12 +1,12 @@
 import { searchMovie } from "../utils/movie";
 import { Link, useLoaderData, useParams } from "react-router-dom";
-import { BsFillCollectionPlayFill } from "react-icons/bs";
-import { AiOutlineStar, AiOutlineEye } from "react-icons/ai";
-import { useDispatch } from "react-redux";
+import { AiOutlineStar, AiOutlinePlusCircle } from "react-icons/ai";
+import { useDispatch, useSelector } from "react-redux";
 import {
   setCollectionIsOpen,
   setSelectedContent,
   fetchCollections,
+  emptyCollectionList,
 } from "../slices/collectionSlice";
 import { useEffect, useState } from "react";
 import { BiSkipNext, BiSkipPrevious } from "react-icons/bi";
@@ -18,22 +18,27 @@ function MovieList() {
   const params = useParams();
   const query = params.query || "";
   const total_pages = data.total_pages;
+  const isSignedIn = useSelector((store) => store.auth.isSignedIn);
 
   const [page, setPage] = useState(data.page);
 
   useEffect(
     function () {
-      dispatch(fetchCollections());
+      if (isSignedIn) {
+        dispatch(fetchCollections());
+      } else {
+        dispatch(emptyCollectionList());
+      }
     },
-    [dispatch],
+    [dispatch, isSignedIn],
   );
 
   if (!movies) return <p>Input valid keywords to get better results.</p>;
 
   return (
-    <section>
+    <section className="mb-16">
       <div className="flex justify-center">
-        <h1 className="md:4xl my-6 inline-block p-2 text-center text-3xl shadow">
+        <h1 className="md:4xl mb-4 mt-6 inline-block rounded-md bg-gradient-to-r from-blue-600 to-blue-300 bg-clip-text p-2 text-center text-3xl font-bold uppercase tracking-widest text-transparent shadow">
           Movies
         </h1>
       </div>
@@ -43,12 +48,12 @@ function MovieList() {
         ))}
       </div>
 
-      <div className="flex items-center justify-center gap-2 text-3xl text-white my-2">
+      <div className="fixed bottom-0 left-0 right-0 z-50 my-2 flex items-center justify-center gap-2 text-3xl text-white">
         <Link
           onClick={() => {
             if (page > 1) setPage((p) => p - 1);
           }}
-          className={`rounded-full bg-blue-400 p-2 shadow-md ${
+          className={`rounded-full bg-blue-400 p-1 shadow-md md:p-2 ${
             page === 1 && "hidden"
           }`}
           to={`/movie/${page - 1}/${query}`}
@@ -56,13 +61,13 @@ function MovieList() {
           <BiSkipPrevious />
         </Link>
 
-        <span className="rounded-full  border-b-2 p-2 text-base font-semibold text-blue-400 shadow-md">
+        <span className="rounded-full  border-b-2 bg-white/90 px-3 py-1 text-sm font-semibold text-blue-400 shadow-md">
           {page}
         </span>
 
         <Link
           onClick={() => setPage((p) => p + 1)}
-          className={`rounded-full bg-blue-400 p-2 shadow-md ${
+          className={`rounded-full bg-blue-400 p-1 shadow-md md:p-2 ${
             page === total_pages && "hidden"
           }`}
           to={`/movie/${page + 1}/${query}`}
@@ -94,7 +99,7 @@ function Movie({ movie }) {
       </div>
       <div>
         <h1 className="text-md py-2 font-semibold">{movie.name}</h1>
-        <p className="line-clamp-4 mb-2 text-xs text-black/60 md:text-base">
+        <p className="mb-2 line-clamp-4 text-xs text-black/60 md:text-base">
           {movie.overview ? movie.overview : "This movie has no description"}
         </p>
       </div>
@@ -104,15 +109,8 @@ function Movie({ movie }) {
             dispatch(setSelectedContent(movie));
             dispatch(setCollectionIsOpen());
           }}
-          className="rounded px-2 py-1 shadow-md hover:scale-105"
         >
-          <BsFillCollectionPlayFill />
-        </button>
-        <button
-          onClick={() => dispatch(setSelectedContent(movie))}
-          className="rounded px-2 py-1 shadow-md hover:scale-105"
-        >
-          <AiOutlineEye />
+          <AiOutlinePlusCircle className="rounded-full bg-blue-400 text-2xl text-white shadow-xl transition-all hover:scale-105" />
         </button>
       </div>
     </div>

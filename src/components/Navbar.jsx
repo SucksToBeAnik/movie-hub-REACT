@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { AiOutlineHome } from "react-icons/ai";
-import { BiMoviePlay } from "react-icons/bi";
+import { BiMoviePlay,BiLogIn,BiLogOut } from "react-icons/bi";
 import { BsFillCollectionPlayFill, BsPencilSquare } from "react-icons/bs";
 import { RxHamburgerMenu } from "react-icons/rx";
 import { useState } from "react";
@@ -8,16 +8,22 @@ import { ImCancelCircle } from "react-icons/im";
 
 import { PiTelevisionSimpleBold } from "react-icons/pi";
 import SearchBar from "./SearchBar";
+import { useDispatch, useSelector } from "react-redux";
+import { pb } from "../pb/database";
+import { setIsSignedIn } from "../slices/authSlice";
 
 
 function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
+  const dispatch = useDispatch()
 
   function handleLinkClick() {
     if (isOpen) {
       setIsOpen(() => false);
     }
   }
+
+  const isSignedIn = useSelector(store=>store.auth.isSignedIn)
 
   return (
     <section className="relative h-28">
@@ -70,12 +76,19 @@ function Navbar() {
             icon={<BsFillCollectionPlayFill className="text-md" />}
             name="Collections"
           />
-          <NavLink
+          {!isSignedIn ? <NavLink
             handleLinkClick={handleLinkClick}
-            to="/reviews"
-            icon={<BsPencilSquare className="text-md" />}
-            name="Reviews"
-          />
+            to="/signin"
+            icon={<BiLogIn className="text-md" />}
+            name="Signin"
+          />: <Link to='/signin' onClick={()=>{
+            pb.authStore.clear()
+            dispatch(setIsSignedIn(false))
+
+          }} className="flex cursor-pointer items-center justify-center gap-1 rounded-sm border-b border-black px-2 py-1 uppercase text-black transition-all hover:border-blue-400 hover:bg-blue-400 hover:text-white">
+            <span><BiLogOut /></span>
+            <span>Logout</span>
+            </Link>}
         </div>
       </nav>
     </section>

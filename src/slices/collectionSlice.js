@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { getCollections,getSpecificContentById } from "../pb/get";
+import { getCollections,getCurrentUsername } from "../pb/get";
 
 
 
@@ -7,8 +7,9 @@ import { getCollections,getSpecificContentById } from "../pb/get";
 export const fetchCollections = createAsyncThunk(
     'collection/fetchCollections',
     async function(){
-        const collections = await getCollections()
-
+        const username = await getCurrentUsername()
+        
+        const collections = await getCollections(username)
         return collections
     }
 )
@@ -33,11 +34,8 @@ const collectionSlice = createSlice({
             state.selectedContent = null
             state.selectedContent = action.payload
         },
-        updateCollectionList(state,action){
-            state.collectionList = [...action.payload]
-        },
-        setPageUp(state){
-            state.page = state.page + 1
+        emptyCollectionList(state){
+            state.collectionList = []
         }
     },
     extraReducers: (builder)=> builder.addCase(fetchCollections.fulfilled, (state,action)=>{
@@ -48,6 +46,6 @@ const collectionSlice = createSlice({
     })
 })
 
-export const {setCollectionIsOpen, setSelectedContent} = collectionSlice.actions
+export const {setCollectionIsOpen, setSelectedContent, emptyCollectionList} = collectionSlice.actions
 
 export default collectionSlice.reducer

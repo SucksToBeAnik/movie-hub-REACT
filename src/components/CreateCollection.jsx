@@ -2,13 +2,16 @@ import { createCollection } from "../pb/post";
 import { useForm } from "react-hook-form";
 import { ImCancelCircle } from "react-icons/im";
 import { BiLoaderCircle } from "react-icons/bi";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { pb } from "../pb/database";
+import { getCurrentProfile } from "../pb/get";
 
 function CreateCollection({ setShowCreateCollection }) {
   const { register, handleSubmit, formState } = useForm();
   const navigate = useNavigate()
   const isSubmitSuccessful = formState.isSubmitSuccessful
+  const [error, setError] = useState('')
   
 
   useEffect(function(){
@@ -21,11 +24,26 @@ function CreateCollection({ setShowCreateCollection }) {
 
 
   async function handleCreateCollection(data) {
+    try{
+      setError('')
+      const profile = await getCurrentProfile()
 
-    await createCollection({
-      title: data.title,
-      body: data.body,
-    });
+
+      await createCollection({
+        title: data.title,
+        body: data.body,
+        profileId:profile.id
+      });
+
+
+    }catch(e){
+      setError(e.message)
+      
+      console.log(e)
+      throw new Error(e.message)
+    }
+
+    
   }
   return (
     <div className="absolute inset-0 m-2 flex items-center justify-center backdrop-blur-sm">
@@ -74,7 +92,7 @@ function CreateCollection({ setShowCreateCollection }) {
             type="submit"
             className="rounded bg-blue-400 px-2 py-1 text-white"
           >
-            {formState.isSubmitting ? (
+            {(formState.isSubmitting && !error) ? (
               <BiLoaderCircle className="animate-spin" />
             ) : 'Create'}
           </button>
@@ -90,6 +108,7 @@ function CreateCollection({ setShowCreateCollection }) {
         >
           <ImCancelCircle />
         </button>
+        {error && <p className="p-1 my-2 text-left bg-white rounded text-red-400 text-xs">{error}</p>}
       </div>
     </div>
   );
