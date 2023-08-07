@@ -6,25 +6,26 @@ import { useNavigate, Link } from "react-router-dom";
 
 function Signup() {
   const [signupError, setSignupError] = useState("");
+  const [isSignupCompleted,setIsSignupCompleted] = useState(false)
 
   const {
     register,
     handleSubmit,
-    formState: { errors, isSubmitting, isSubmitSuccessful },
+    formState: { errors, isSubmitting},
   } = useForm();
 
   const navigate = useNavigate();
 
   useEffect(
     function () {
-      if (isSubmitSuccessful) navigate("/signin");
+      if (isSignupCompleted) navigate("/signin");
     },
-    [isSubmitSuccessful, navigate],
+    [isSignupCompleted, navigate],
   );
 
   return (
     <div className="flex items-center justify-center overflow-hidden">
-      <div className="w-full p-4 py-12 shadow md:w-2/4">
+      <div className="w-full p-4 py-12 md:shadow-md md:w-2/4">
         <h1 className="px-2 py-4 text-center text-2xl font-semibold">
           Create an account
         </h1>
@@ -34,6 +35,7 @@ function Signup() {
             try {
               setSignupError("");
               await createUserWithUsername(data);
+              setIsSignupCompleted(true)
             } catch (e) {
               setSignupError(e.message);
             }

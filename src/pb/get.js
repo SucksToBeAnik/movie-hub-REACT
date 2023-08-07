@@ -18,7 +18,6 @@ export async function getSpecificCollectionById(id){
         })
         return collection
     }catch(e){
-        console.log(e)
         throw new Error(e.message)
     }
 }

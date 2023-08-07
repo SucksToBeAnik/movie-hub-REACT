@@ -19,7 +19,6 @@ function Signin() {
   const [isLoggedIn, setIsLoggedIn] = useState(false)
   const [error, setError] = useState("");
 
-  console.log(isLoggedIn)
 
   useEffect(
     function () {
@@ -34,7 +33,7 @@ function Signin() {
 
   return (
     <div className="flex items-center justify-center overflow-hidden">
-      <div className="w-full p-4 py-12 shadow-md md:w-2/4">
+      <div className="w-full p-4 py-12 md:shadow-md md:w-2/4">
         <h1 className="px-2 py-4 text-center text-2xl font-semibold">Login</h1>
         <form
           className="flex flex-col items-center justify-center p-2"

@@ -9,7 +9,6 @@ export async function signinWithUsername(user) {
 }
 
 export async function createUserWithUsername(user) {
-  console.log(user);
   try {
     const newUser = await pb.collection("users").create({
       username: user.username,
@@ -22,8 +21,7 @@ export async function createUserWithUsername(user) {
       user: newUser.id
     });
   } catch (e) {
-    // console.log(e)
-    // console.log(e.response.data.username)
+    
     if (e?.response?.data?.username) {
       throw new Error(e.response.data.username.message);
     } else {
@@ -32,6 +30,4 @@ export async function createUserWithUsername(user) {
   }
 }
 
-async function logout(){
-    
-}
+
