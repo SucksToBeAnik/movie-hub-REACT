@@ -3,7 +3,8 @@ import { pb } from "./database";
 export async function getCollections(username){
     try{
         const collections = await pb.collection('collections').getFullList({
-            filter:`profile.username ="${username}"`
+            filter:`profile.username ="${username}"`,
+            '$autoCancel':false
         })
         return collections
     }catch(e){
