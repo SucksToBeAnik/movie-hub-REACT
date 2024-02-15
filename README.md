@@ -1,7 +1,7 @@
 # MovieHUB 
 `ongoing`
 
-**You can see the live preview [here](https://movie-hub.netlify.app)**
+**You can see the live preview [here](https://watch-hub.netlify.app)**
 
 **API used to fetch movie data: [TMDB](https://www.themoviedb.org/)**
 
